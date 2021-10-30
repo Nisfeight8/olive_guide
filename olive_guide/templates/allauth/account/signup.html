@@ -1,0 +1,40 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% load static %}
+
+{% load material_form %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div id="auth_card" class=" col card s6 offset-s3 hoverable  ">
+  <div class="card-action ">
+    <h4>{% trans "Sign Up" %}</h4>
+  </div>
+<div class="card-content">
+<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+  {% csrf_token %}
+  {% form form=form %}{% endform %}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <div class="row">
+    <button class="btn waves-effect lime darken-3 white-text " style="width: 100%;"  type="submit">{% trans "Sign Up" %}</button>
+  </div>
+  </form>
+
+  </div>
+    <div class="card-action">
+      <a class="btn waves-effect blue darken-2 white-text " style="width: 100%;" href="{{ login_url }}">{% trans "Sign in" %}</a>
+  </div>
+  </div>
+  </div>
+
+{% endblock %}
+
+{% block extra_javascript %}
+    <script type="text/javascript" src="{% static 'js/auth-card.js' %}"></script>
+{% endblock%}

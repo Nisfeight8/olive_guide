@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block extracss %}
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+{% endblock %}
+{% block extrajs %}
+  <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+{% endblock %}
+{% load i18n %}
+{% block head_title %}{% trans "My Olive Groves" %}{% endblock %}
+{% block content %}
+{% block breadcrumbs %}
+    {% include 'breadcumps.html' %}
+{% endblock %}
+<div class="card-panel">
+  <div class="card_action">
+    <div class="row">
+      <div class="col s6">
+        <h4>{% trans "My Olive Groves" %}</h4>
+      </div>
+      <div class="col s6 right-align" style="padding-top: 15px">
+        <a
+          class="btn waves-effect lime darken-3 white-text"
+          href="{% url 'olive_grove:olive_grove_create'  %}"
+          ><i class="material-icons left">add</i>{% trans "Create" %}</a
+        >
+      </div>
+    </div>
+  </div>
+  <div class="card-content">
+    <table class="striped responsive-table" id="sampleData">
+      <thead>
+        <tr>
+          <th>{% trans "Name" %}</th>
+          <th>{% trans "Created At" %}</th>
+          <th>{% trans "Actions" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for og in olive_groves %}
+        <tr>
+          <td>{{ og.name }}</td>
+          <td>{{og.created_at}}</td>
+          <td>
+            <a
+              class="btn waves-effect lime darken-3 white-text"
+              href="{{og.get_absolute_url}}"
+              ><i class="material-icons left">remove_red_eye</i>{% trans "View" %}</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+{% block extra_javascript %}
+  <script>
+    $(document).ready( function () {
+      $('#sampleData').DataTable();
+    });
+  </script>
+{% endblock %}

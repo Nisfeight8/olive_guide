@@ -1,0 +1,64 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    {% block meta_tags %}
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    {% endblock meta_tags %}
+    {% block stylesheets %}
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/olive-grove.png' %}"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Kaisei+Tokumin:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{% static '/css/app.css' %}" >
+        {% block extracss %}{% endblock %}
+        {% include 'material/includes/material_css.html' %}
+    {% endblock stylesheets %}
+    {% block js %}
+        <script src="{% static 'material/js/jquery.js' %}"></script>
+        {% include 'material/includes/material_js.html' %}
+        {% block extrajs %}{% endblock %}
+    {% endblock %}
+    <title>{% block head_title %}{% endblock %} | Olive Guide</title></head>
+<body>
+    {% block navbar %}
+    <div class="lime darken-3">
+    <div class="container">
+    <form action="{% url 'set_language' %}" method="post">
+      {% csrf_token %}
+      <input name="next" type="hidden" value="{{ redirect_to }}" />
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        {% get_language_info_list for LANGUAGES as languages %}
+        {% for language in languages %}
+          <button type="submit" class="btn-flat" name="language" value="{{ language.code }}">
+            <img src="/static/img/{{ language.code }}.png" height='30'>
+          </button>
+        {% endfor %}
+    </form>
+    </div>
+    </div>
+        {% include 'navbar.html' %}
+    {% endblock %}
+    {% block messages %}
+        {% if messages %}
+            {% for message in messages %}
+                <script type=text/javascript>M.toast({html: '{{ message }}'})</script>
+            {% endfor %}
+        {% endif %}
+
+    {% endblock %}
+    <div class="container">
+        <br>
+        <br>
+        {% block content %}{% endblock %}
+    </div>
+    {% block footer %}
+    {% include 'footer.html' %}
+    {% endblock %}
+    {% block javascript %}{% endblock javascript %}
+    {% block extra_javascript %}{% endblock %}
+</body>
+</html>

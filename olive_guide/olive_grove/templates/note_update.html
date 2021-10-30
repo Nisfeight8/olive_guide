@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load material_form %}
+{% block head_title %}{% trans "Edit Note" %} : {{ note.title }} {% endblock %}
+{% block content %}
+{% block breadcrumbs %}
+    {% with var="update" %}
+      {% include 'breadcumps.html' %}
+    {% endwith %}
+{% endblock %}
+<div class="card-panel">
+  <div class="card_action">
+    <h4>{% trans 'Edit Note' %} : {{ note.title }}</h4>
+  </div>
+  <div class="card-content">
+    <form method="POST">
+      {% csrf_token %}
+       {{ form.as_p }}
+      <button class="btn waves-effect lime darken-3 white-text" type="submit">
+        {% trans "Update" %}
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

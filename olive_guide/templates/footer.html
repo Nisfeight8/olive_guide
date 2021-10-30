@@ -1,0 +1,26 @@
+{% load static %}
+{% load i18n %}
+{% block footer %}
+<footer class="page-footer lime darken-3 center-align">
+    <div class="container">
+      <div class="row">
+        <a class="btn-flat" href="/about_us">{% trans 'About Us' %}</a>
+        <a class="btn-flat" href="/contact_us">{% trans 'Contact Us' %}</a>
+      </div>
+      <div class="row">
+        <a class="btn-flat" target="_blank" href="https://www.facebook.com/AGRODVP/"><i class="fab fa-facebook"></i></a>
+        <a class="btn-flat" target="_blank" href="https://www.instagram.com/agro_development/"><i class="fab fa-instagram"></i></a>
+          <p class="grey-text text-lighten-4">{% blocktrans %}This app is created by the team of Agro Development. Agro Development
+            is an agricultural enterprise that gives advices to farmers or in
+            general to people who want to engage in agriculture. You can find us {% endblocktrans %}
+            <a target="_blank" href="https://agro-development.com" class="black-text" >{% trans 'here' %}</a></p>
+      </div>
+    </div>
+    <div class="footer-copyright mx-auto my-14">
+      <div class="container ">
+      © {% now 'Y' %} Copyright: <a target="_blank" href="https://agro-development.com" class="btn-flat black-text"> Agro Development</a>
+
+      </div>
+    </div>
+  </footer>
+{% endblock %}

@@ -1,0 +1,22 @@
+body {
+    font-family: "Kaisei Tokumin", serif;  }
+.logo {
+    display: inline-block;
+    height: 100%;
+}
+
+.logo>img {
+    vertical-align: middle;
+}
+.card{
+
+    align-items: center;
+    justify-content: center;
+}
+.card-image{
+    width: 250px;
+    height: 250px;
+}
+.pd{
+    padding-top: 3px;
+}

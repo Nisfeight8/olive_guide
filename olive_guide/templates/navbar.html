@@ -1,0 +1,34 @@
+{% load static %}
+{% block navbar %}
+{% load i18n %}
+<nav>
+    <div class="nav-wrapper lime darken-3">
+        <div class="container">
+      <a href="/" class="logo"><img src="{% static 'img/olive_guide.png' %}" height="70">Olive Guide</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'olive_grove:olive_groves' %}"><i class="material-icons left">assignment</i>{% trans 'My Olive Groves' %}</a></li>
+        <li><a href="{% url 'user_profile:profile' %}"><i class="material-icons left">account_circle</i>{% trans 'Profile' %}</a></li>
+        <li><a href="{% url 'account_logout' %}"><i class="material-icons left">exit_to_app</i>{% trans 'Logout' %}</a></li>
+        {% else %}
+        <li><a href="{% url 'account_login' %}"><i class="fa fa-sign-in-alt left"></i>{% trans 'Login' %}</a></li>
+        {% endif %}
+      </ul>
+    </div>
+    </div>
+  </nav>
+
+  <ul class="sidenav" id="mobile-demo">
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'olive_grove:olive_groves' %}"><i class="material-icons left ">assignment</i>{% trans 'My Olive Groves' %}</a></li>
+        <li><a href="{% url 'user_profile:profile' %}"><i class="material-icons left ">account_circle</i>{% trans 'Profile' %}</a></li>
+        <li><a href="{% url 'account_logout' %}"><i class="material-icons left ">exit_to_app</i>{% trans 'Logout' %}</a></li>
+    {% else %}
+    <li><a href="{% url 'account_login' %}">{% trans 'Login' %}</a></li>
+    {% endif %}
+  </ul>
+{% endblock %}
+{% block extra_javascript%}
+    <script type="text/javascript" src="{% static 'js/mobile-nav.js' %}"></script>
+  {% endblock %}

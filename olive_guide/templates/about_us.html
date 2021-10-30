@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% load material_form %}
+{% block head_title %}{% trans "Contact Us" %}{% endblock %}
+{% block content %}
+<div class="card-panel">
+  <div class="card_action center-align">
+    <h4>{% trans 'About Us' %}</h4>
+  </div>
+  <div class="card-content">
+    <div class="row">
+      <div class="col s4">
+        <img src="{% static 'img/agrodvp.png' %}" class="card-image" >
+      </div>
+      <div class="col s8">
+        <P style="padding-top : 60px;">{% blocktrans %}This app is created by the team of Agro Development. Agro Development
+            is an agricultural enterprise that gives advices to farmers or in
+            general to people who want to engage in agriculture. You can find us {% endblocktrans %}
+                <a target="_blank" href="https://agro-development.com"  >{% trans 'here' %}</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
