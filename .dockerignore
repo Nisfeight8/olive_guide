@@ -3,5 +3,3 @@ __pycache__
 .git
 .gitignore
 ogenv
-.env
-.env.example

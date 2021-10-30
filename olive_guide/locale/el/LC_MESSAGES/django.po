@@ -274,7 +274,7 @@ msgstr "Επικοινωνία"
 
 #: templates/about_us.html:8 templates/footer.html:7
 msgid "About Us"
-msgstr "Για Εμάς"
+msgstr "Σχετικά με Εμάς"
 
 #: templates/about_us.html:11 templates/footer.html:13
 msgid ""
