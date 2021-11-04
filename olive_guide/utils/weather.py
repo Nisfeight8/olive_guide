@@ -1,6 +1,3 @@
-#http://api.openweathermap.org/data/2.5/forecast?lat="+polygon.getCentroid().getY()+"&lon="+polygon.getCentroid().getX()
- #                   + "&APPID=a9414d4e18e890688dc1c0ab7d4db7ba
-
 import requests
 import json
 import datetime
