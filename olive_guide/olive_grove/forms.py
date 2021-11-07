@@ -17,7 +17,7 @@ min_num=4, validate_min=True,)
 class OliveGroveForm(forms.ModelForm):
     class Meta:
         model = OliveGrove
-        fields = ('name','srid')
+        fields = ('name',)
 class NoteForm(forms.ModelForm):
     class Meta:
         model = Note

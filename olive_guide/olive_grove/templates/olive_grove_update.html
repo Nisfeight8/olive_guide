@@ -19,7 +19,9 @@
       <div id="form_set">
         <label>{% trans 'Coordinates' %} :</label>
         <p>{% trans "Be sure that the last coordinate is the same with the first !" %}</p>
-        <span id="message"></span>
+         {% if message %}
+        <span id="message" style="color:red;">{{ message }}</span>
+        {% endif %}
             {% csrf_token %}
             {{ formset.management_form }}
               {% for form in formset.forms%}

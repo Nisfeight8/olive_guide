@@ -17,7 +17,7 @@ def getWeather(polygon):
             daily['time']=_date(datetime.datetime.fromtimestamp(item['dt']),"l")
             daily['temp']=item['temp']['day']
             daily['pressure']=item['pressure']
-            daily['humidity']=item['humidity']
+            daily['humidity']=str(item['humidity'])+"%"
             daily['clouds']=str(item['clouds'])+"%"
             daily['wind_speed']=item['wind_speed']
             daily['main']=item['weather'][0]['main']

@@ -13,13 +13,6 @@ class OliveGrove(models.Model):
     created_at=models.DateField(_("Created At"), auto_now_add=True)
     name=models.CharField(_("Name"), max_length=50)
     polygon=models.PolygonField(_("Polygon"))
-    GREEK=2100
-    GLOBAL=4326
-    SRID_CHOICES = [
-        (GREEK, _('Greek')),
-        (GLOBAL, _('Global')),
-    ]
-    srid=models.IntegerField(_('Coordinate System'), choices=SRID_CHOICES,default=4326)
 
     class Meta:
         verbose_name = _("Olive Grove")
@@ -30,16 +23,12 @@ class OliveGrove(models.Model):
     @property
     def acres(self):
         poly=self.polygon.clone()
-        if self.srid==2100:
-            poly.transform(2100)
-            return poly.area/1000
-        else:
-            return poly.area
+        poly.transform(2100)
+        return poly.area/1000
     @property
     def coordinates(self):
         poly=self.polygon.clone()
-        if self.srid==2100:
-            poly.transform(2100)
+        poly.transform(2100)
         return poly.coords
 
     def get_absolute_url(self):

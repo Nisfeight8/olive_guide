@@ -35,16 +35,13 @@ class OliveGroveCreateView(SuccessMessageMixin,LoginRequiredMixin,FormView):
                     coordinates.append((cord_form.cleaned_data['x'],cord_form.cleaned_data['y']))
             try:
                 poly=Polygon(coordinates,)
-                if form.cleaned_data['srid']==2100:
-                    poly.srid=2100
-                self.object=OliveGrove.objects.create(name=form.cleaned_data['name'],polygon=poly,srid=form.cleaned_data['srid'],created_by=self.request.user)
+                poly.srid=2100
+                self.object=OliveGrove.objects.create(name=form.cleaned_data['name'],polygon=poly,created_by=self.request.user)
                 return super().form_valid(form)
             except:
-                return self.form_invalid(form,formset , **kwargs)
+                return self.render_to_response(self.get_context_data(form=form,formset=formset,message=_("Wrong Coordinates !")))
         else:
-            return self.form_invalid(form,formset , **kwargs)
-    def form_invalid(self, form, formset, **kwargs):
-        return self.render_to_response(self.get_context_data(form=form,formset=formset,message=_("Wrong Coordinates !")))
+            return self.render_to_response(self.get_context_data(form=form,formset=formset))
     def get_success_url(self):
         return self.object.get_absolute_url()
 class OliveGroveUpdateView(SuccessMessageMixin,LoginRequiredMixin,UserPassesTestMixin,FormView):
@@ -77,21 +74,17 @@ class OliveGroveUpdateView(SuccessMessageMixin,LoginRequiredMixin,UserPassesTest
                     coordinates.append((cord_form.cleaned_data['x'],cord_form.cleaned_data['y']))
             try:
                 poly=Polygon(coordinates)
-                if form.cleaned_data['srid']==2100:
-                    poly.srid=2100
+                poly.srid=2100
                 olive_grove=self.get_object()
                 olive_grove.name=form.cleaned_data['name']
-                olive_grove.srid=form.cleaned_data['srid']
                 olive_grove.polygon=poly
                 olive_grove.created_by=request.user
                 olive_grove.save()
                 return super().form_valid(form)
             except:
-                return self.form_invalid(form,formset , **kwargs)
+                return self.render_to_response(self.get_context_data(form=form,formset=formset, message=_("Wrong Coordinates !")))
         else:
-            return self.form_invalid(form,formset , **kwargs)
-    def form_invalid(self, form, formset, **kwargs):
-        return self.render_to_response(self.get_context_data(form=form,formset=formset,message=_("Wrong Coordinates !")))
+            return self.render_to_response(self.get_context_data(form=form,formset=formset))
     def get_success_url(self):
         return self.get_object().get_absolute_url()
     def get_object(self):
