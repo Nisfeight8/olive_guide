@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% block head_title %}{% trans "Olive Grove" %} : {{ olive_grove.name }}{% endblock %}
+{% block content %}
+{% load geojson_tags %}
+{% load leaflet_tags %}
+{% leaflet_js %}
+{% leaflet_css %}
+{% block breadcrumbs %}
+    {% include 'breadcumps.html' %}
+{% endblock %}
+<div class="card-panel">
+  <div class="card-action">
+    <div class="row">
+      <div class="col s6">
+        <h4>{{ olive_grove.name }}</h4>
+      </div>
+      <div class="col s6 right-align" style="padding-top: 15px" >
+        <a
+          class="btn-floating waves-effect lime darken-3 white-text"
+          href="{% url 'olive_grove:olive_grove_update'  olive_grove.pk  %}"
+          > <i class="material-icons left">edit</i></a
+        >
+        <button
+          class="btn-floating waves-effect lime darken-3 white-text modal-trigger"
+          data-target="modal1"
+          > <i class="material-icons left">delete</i></button
+        >
+      </div>
+    </div>
+  </div>
+  <div class="card-content responsive">
+      <div class="col s6">
+          {% leaflet_map "map" callback="window.map_init_basic" %}
+      </div>
+    <br>
+    <div class="container">
+      <div class="row">
+        <div class="col s4">{% trans 'Name' %} :</div>
+        <div class="col s8">{{olive_grove.name}}</div>
+      </div>
+      <div class="row">
+        <div class="col s4">{% trans 'Created At' %} :</div>
+        <div class="col s8">{{olive_grove.created_at}}</div>
+      </div>
+      <div class="row">
+        <div class="col s4">{% trans 'Acres' %} :</div>
+        <div class="col s8">{{olive_grove.acres}}</div>
+      </div>
+      <div class="row">
+        <div class="col s4">{% trans 'Coordinates' %}:</div>
+        <div class="col s8">
+          <table>
+            <thead>
+              <tr>
+                  <th>x</th>
+                  <th>y</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for point in olive_grove.coordinates.0 %}
+                <tr>
+                  <td>{{ point.0 }}</td>
+                  <td>{{ point.1 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row center-align">
+        <a
+          class="btn waves-effect lime darken-3 white-text "
+          href="{% url 'olive_grove:note_create'  olive_grove.pk  %}"
+          > <i class="material-icons left">note_add</i>{% trans "Add Note" %}</a
+        >
+      </div>
+    </div>
+  </div>
+  <div class="card-tabs">
+    <ul class="tabs tabs-fixed-width">
+      <li class="tab"><a href="#notes">{% trans 'Notes' %}</a></li>
+      <li class="tab"><a class="active" href="#weather">{% trans 'Weather' %}</a></li>
+      <li class="tab"><a href="#instructions">{% trans 'Advices' %}</a></li>
+    </ul>
+  </div>
+  <div class="card-content grey lighten-4">
+    <div id="notes">
+      {% if olive_grove.note_set.all %}
+      <table class="striped responsive-table">
+      <thead>
+        <tr>
+          <th>{% trans "Title" %}</th>
+          <th>{% trans "Created At" %}</th>
+          <th>{% trans "Actions" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for note in olive_grove.note_set.all %}
+        <tr>
+          <td>{{ note.title }}</td>
+          <td>{{ note.created_at}}</td>
+          <td>
+            <a
+              class="btn waves-effect lime darken-3 white-text"
+              href="{{note.get_absolute_url}}"
+              ><i class="material-icons left">remove_red_eye</i>{% trans "View" %}</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif%}
+    </div>
+    <div id="weather" class="responsive" style="height: 350px;">
+      {% for weather in olive_grove.weather %}
+        <div class="divider"></div>
+        <div class="section">
+          <div class="center-align">
+            <h5>{{ weather.time }}</h5>
+            <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Image">
+            <h6 style='font-weight: bold;'>{{ weather.description }}</h5>
+            <p>{% trans 'Temperature' %}: {{ weather.temp }}<img src="{% static 'img/celsius.png' %}" height="10"> </p>
+            <p>{% trans 'Wind speed' %}: {{ weather.wind_speed }}<img src="{% static 'img/wind.png' %}" height="10"></p>
+            <p>{% trans 'Humidity' %}: {{ weather.humidity }}</p>
+            <p>{% trans 'Clouds' %}: {{ weather.clouds }}</p>
+          </div>
+        </div>
+      {% endfor %}
+      <div class="right-align">
+        <a target="_blank" href="https://openweathermap.org">Powered By OpenWeather</a>
+      </div>
+    </div>
+    <div id="instructions">Not implemented yet !</div>
+  </div>
+</div>
+<div id="modal1" class="modal">
+   <div class="modal-content">
+      <h4>{% trans 'Delete' %} {{olive_grove.name}}</h4>
+      <p>{% trans 'Are you sure you want to delete this olive grove ?' %}</p>
+
+    </div>
+    <div class="divider"></div>
+      <div class="modal-footer">
+          <form method="POST" action="{% url 'olive_grove:olive_grove_delete'  olive_grove.pk  %}" >
+            {% csrf_token %}
+            <button class="btn waves-effect red white-text" type="submit">
+              {% trans "Delete" %}
+            </button>
+            <a class="btn waves-effect green white-text modal-close" >
+              {% trans "Cancel" %}
+            </a>
+          </form>
+    </div>
+  </div>
+{% endblock %}
+{% block extra_javascript %}
+
+<script>
+  $(document).ready(function () {
+    $(".tabs").tabs();
+    $('#weather').css("overflow-y", "scroll");
+  });
+</script>
+<script type="text/javascript">
+     function map_init_basic(map, options) {
+      var polygon= L.geoJson({{ olive_grove.polygon|geojsonfeature|safe }}, {color: 'red'});
+      polygon.addTo(map)
+      map.fitBounds(polygon.getBounds());
+  }
+</script>
+<script>
+    $(document).ready(function(){
+      $('.modal').modal();
+    });
+</script>
+{% endblock %}

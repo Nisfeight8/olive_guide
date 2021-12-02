@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block head_title %}{% trans "Note" %} : {{ note.title }} {% endblock %}
+{% block content %}
+{% block breadcrumbs %}
+    {% include 'breadcumps.html' %}
+{% endblock %}
+<div class="card-panel">
+  <div class="card-action">
+    <div class="row">
+      <div class="col s6">
+        <h4>{{ note.title }}</h4>
+      </div>
+      <div class="col s6 right-align" style="padding-top: 15px" >
+        <a
+          class="btn-floating waves-effect lime darken-3 white-text"
+          href="{% url 'olive_grove:note_update'  og_id=note.olive_grove.pk pk=note.pk  %}"
+          > <i class="material-icons left">edit</i></a
+        >
+        <button
+          class="btn-floating waves-effect lime darken-3 white-text modal-trigger"
+          data-target="modal1"
+          > <i class="material-icons left">delete</i></button
+        >
+      </div>
+    </div>
+  </div>
+  <div class="card-content">
+  {{ note.text }}
+  </div>
+</div>
+<div id="modal1" class="modal">
+   <div class="modal-content">
+      <h4>{% trans 'Delete' %} {{olive_grove.name}}</h4>
+      <p>{% trans 'Are you sure you want to delete this note ?' %}</p>
+
+    </div>
+    <div class="divider"></div>
+      <div class="modal-footer">
+          <form method="POST" action="{% url 'olive_grove:note_delete'  og_id=note.olive_grove.pk pk=note.pk  %}" >
+            {% csrf_token %}
+            <button class="btn waves-effect red white-text" type="submit">
+              {% trans "Delete" %}
+            </button>
+            <a class="btn waves-effect green white-text modal-close" >
+              {% trans "Cancel" %}
+            </a>
+          </form>
+    </div>
+  </div>
+{% endblock %}
+{% block extra_javascript %}
+<script>
+    $(document).ready(function(){
+      $('.modal').modal();
+    });
+</script>
+{% endblock %}

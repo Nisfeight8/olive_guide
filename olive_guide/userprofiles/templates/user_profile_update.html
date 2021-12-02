@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load material_form %}
+{% block head_title %}{% trans "Profile" %}{% endblock %}
+{% block content %}
+
+<div class="card-panel">
+  <div class="card_action">
+    <h4>{% trans 'Profile' %}</h4>
+  </div>
+  <div class="card-content">
+    <form method="POST">
+      {% csrf_token %}
+        {% form form=form %}{% endform %}
+      <button class="btn waves-effect lime darken-3 white-text" type="submit">
+        {% trans "Submit" %}
+      </button>
+      <div class="right-align">
+      <a  href="{% url 'user_profile:password_change' %}">{% trans 'Change Password' %}</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

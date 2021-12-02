@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load material_form %}
+{% block head_title %}{% trans "Contact Us" %}{% endblock %}
+{% block content %}
+<div class="card-panel">
+  <div class="card_action">
+    <h4>{% trans 'Contact Us' %}</h4>
+  </div>
+  <div class="card-content">
+    <form method="POST">
+      {% csrf_token %} {{ form.as_p }}
+      <button class="btn waves-effect lime darken-3 white-text" type="submit">
+        {% trans "Contact Us" %}
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

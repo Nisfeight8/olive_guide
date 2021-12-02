@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load material_form %}
+{% block head_title %}{% trans 'Edit' %} {% trans 'Olive Grove' %} : {{ olive_grove.name }}{% endblock %}
+{% block content %}
+{% block breadcrumbs %}
+    {% with var="update" %}
+      {% include 'breadcumps.html' %}
+    {% endwith %}
+{% endblock %}
+<div class="card-panel">
+  <div class="card_action">
+    <h4>{% trans 'Edit' %} {% trans 'Olive Grove' %} : {{ olive_grove.name }}</h4>
+  </div>
+  <div class="card-content">
+    <form method="POST">
+      {% csrf_token %}
+      {% form form=form %}{% endform %}
+      <div id="form_set">
+        <label>{% trans 'Coordinates' %} :</label>
+        <p>{% trans "Be sure that the last coordinate is the same with the first !" %}</p>
+         {% if message %}
+        <span id="message" style="color:red;">{{ message }}</span>
+        {% endif %}
+            {% csrf_token %}
+            {{ formset.management_form }}
+              {% for form in formset.forms%}
+                {% form form=form %}{% endform %}
+              {% endfor %}
+      </div>
+      <button class="btn waves-effect dark white-text" type="button" id="add_more">{% trans 'Add More' %}</button>
+      <div id="empty_form" style="display:none">
+        {% form form=formset.empty_form %}{% endform %}
+      </div>
+      <br><br>
+      <button class="btn waves-effect lime darken-3 white-text" type="submit">
+        {% trans "Update" %}
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+{% block extra_javascript %}
+<script>
+    $('#add_more').click(function() {
+        var form_idx = $('#id_form-TOTAL_FORMS').val();
+        $('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+        $('#id_form-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+    });
+</script>
+
+{% endblock %}

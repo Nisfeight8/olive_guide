@@ -1,0 +1,48 @@
+{% load i18n %}
+{% block breadcrumbs %}
+    <nav>
+        <div class="nav-wrapper lime darken-3">
+        <div style="padding-left: 15px ;">
+            <div class="col s12">
+                {% block crumbs %}
+                    {% if olive_grove %}
+                        {% if var == 'update' %}
+                            <a class="breadcrumb" href="{% url 'olive_grove:olive_groves' %}">{% trans 'My Olive Groves' %}</a>
+                            <a class="breadcrumb" href="{{olive_grove.get_absolute_url}}">{{ olive_grove.name }}</a>
+                            <a class="disabled breadcrumb">{% trans 'Update' %}</a>
+                        {% elif var == 'create_note' %}
+                            <a class="breadcrumb" href="{% url 'olive_grove:olive_groves' %}">{% trans 'My Olive Groves' %}</a>
+                            <a class="breadcrumb" href="{{olive_grove.get_absolute_url}}">{{ olive_grove.name }}</a>
+                            <a class="disabled breadcrumb">{% trans 'Notes' %}</a>
+                            <a class="disabled breadcrumb">{% trans 'Create' %}</a>
+                        {% else %}
+                            <a class="breadcrumb" href="{% url 'olive_grove:olive_groves' %}">{% trans 'My Olive Groves' %}</a>
+                            <a class="disabled breadcrumb">{{ olive_grove.name }}</a>
+                        {% endif %}
+                    {% elif note %}
+                        {% if var == 'update' %}
+                            <a class="breadcrumb" href="{% url 'olive_grove:olive_groves' %}">{% trans 'My Olive Groves' %}</a>
+                            <a class="breadcrumb" href="{{note.olive_grove.get_absolute_url}}">{{ note.olive_grove.name }}</a>
+                            <a class="disabled breadcrumb">{% trans 'Notes' %}</a>
+                            <a class="breadcrumb" href="{% url 'olive_grove:note_detail' og_id=note.olive_grove.pk pk=note.pk %}">{{ note.title }}</a>
+                            <a class="disabled breadcrumb">{% trans 'Update' %}</a>
+                        {% else %}
+                            <a class="breadcrumb" href="{% url 'olive_grove:olive_groves' %}">{% trans 'My Olive Groves' %}</a>
+                            <a class="breadcrumb" href="{{note.olive_grove.get_absolute_url}}">{{ note.olive_grove.name }}</a>
+                            <a class="disabled breadcrumb">{% trans 'Notes' %}</a>
+                            <a class="disabled breadcrumb"> {{ note.title }} </a>
+                        {% endif %}
+                    {% else %}
+                        {% if var == 'create' %}
+                            <a class="breadcrumb" href="{% url 'olive_grove:olive_groves' %}">{% trans 'My Olive Groves' %}</a>
+                            <a class="disabled breadcrumb">{% trans 'Create' %}</a>
+                        {% else %}
+                            <a class="disabled breadcrumb">{% trans 'My Olive Groves' %}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    </nav>
+{% endblock %}

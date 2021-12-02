@@ -1,0 +1,81 @@
+version: 2.1
+orbs:
+  slack: circleci/slack@4.1
+# Define the jobs we want to run for this project
+jobs:
+  build-and-test:
+    working_directory: ~/olive_guide
+    docker:
+      - image: python:3.9.2-slim-buster
+      - image: mdillon/postgis:10
+        environment:
+          - POSTGRES_PASSWORD=postgres
+    steps:
+      - checkout
+      - run:
+          name: Install GDAL
+          command: |
+            apt-get update \
+            && apt-get -y install netcat gcc postgresql  binutils libproj-dev gdal-bin python-gdal python3-gdal curl\
+            && apt-get clean
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run:
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - "venv"
+      - run:
+          name: Running tests
+          command: |
+            . venv/bin/activate
+            cd olive_guide
+            python manage.py test > ~/olive_guide/tests-results.txt
+      - store_artifacts:
+          path: ~/olive_guide/tests-results.txt
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      # When there is a successful deployment, send a notification with a different template.
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
+  deploy:
+    docker:
+      - image: arvindr226/alpine-ssh
+    steps:
+      - run: 
+            apk update \
+            && apk upgrade \
+            && apk add curl jq
+      - run:
+          name: Deploy
+          command: |
+            ssh -oStrictHostKeyChecking=no -v $USER@$IP "./deploy.sh"
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      # When there is a successful deployment, send a notification with a different template.
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
+# Orchestrate our job run sequence
+workflows:
+  build-project:
+    jobs:
+    - build-and-test:
+        filters:
+          branches:
+            only:
+              - main
+    - deploy:
+        filters:
+          branches:
+            only:
+              - main
+        requires:
+          - build-and-test

@@ -1,0 +1,73 @@
+{% extends "account/base.html" %}
+
+{% load static %}
+
+{% load i18n %}
+{% load account socialaccount %}
+{% load material_form %}
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+
+
+<div class="row">
+  <div id="auth_card" class=" col card s6 offset-s3 hoverable  ">
+  <div class="card-action ">
+<h4>{% trans "Sign In" %}</h4>
+</div>
+<div class="center-align">
+  <img src="{% static 'img/olive_guide.png' %}" class="card-image" >
+</div>
+<div class="card-content">
+{% get_providers as socialaccount_providers %}
+
+{% if socialaccount_providers %}
+<p>{% blocktrans with site.name as site_name %}Please sign in with one
+of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+
+<div class="socialaccount_ballot">
+
+  <ul class="socialaccount_providers">
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+  </ul>
+
+  <div class="login-or">{% trans 'or' %}</div>
+
+</div>
+
+{% include "socialaccount/snippets/login_extra.html" %}
+
+{% else %}
+
+{% endif %}
+
+<form class="login" method="POST" action="{% url 'account_login' %}">
+  {% csrf_token %}
+  {% form form=form %}{% endform %}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <div class="row center-align">
+  <a class="btn-flat blue-text" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+</div>
+<div class="row">
+  <button class="btn waves-effect lime darken-3 white-text " style="width: 100%;"  type="submit">{% trans "Sign In" %}</button>
+</div>
+</form>
+
+</div>
+  <div class="card-action">
+
+      <a class="btn waves-effect blue darken-2 white-text " style="width: 100%;" href="{{ signup_url }}">{% trans "Sign Up" %}</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block extra_javascript %}
+    <script type="text/javascript" src="{% static 'js/auth-card.js' %}"></script>
+{% endblock%}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% block head_title %}{% trans "Home" %}{% endblock %}
+{% block content %}
+<div class="center-align">
+    <img src="{% static 'img/olive_guide.png' %}" class="card-image" >
+    <h3>{% trans 'Welcome to Olive Guide App' %}</h3>
+    <p>{% trans 'Created by Agro Development.For any help contact us'%} <a href="/contact_us">{% trans 'here' %}</a></p>
+<br>
+<hr>
+<h4>{% trans 'Our services' %} :</h4>
+<br>
+<div class="row">
+    <div class="col s4 ">
+        <img src="{% static 'img/olive-grove.png' %}" style="width: 100px; height: 100px;">
+    </div>
+    <div class="col s8 psuh-s3">
+        <p>{% trans 'You can save your olive groves so you can find them easily when you are logged in !' %}</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col s4 ">
+        <img src="{% static 'img/weather.png' %}" style="width: 100px; height: 100px;">
+    </div>
+    <div class="col s8 psuh-s3">
+        <p>{% trans 'You can see the weather for the next week for each olive grove !' %}</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col s4 ">
+        <img src="{% static 'img/note.png' %}" style="width: 100px; height: 100px;">
+    </div>
+    <div class="col s8 psuh-s3">
+        <p>{% trans 'You can save some notes for each olive grove !' %}</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col s4 ">
+        <img src="{% static 'img/instructions.png' %}" style="width: 100px; height: 100px;">
+    </div>
+    <div class="col s8 psuh-s3">
+        <p>{% trans 'We give you some advices for the needs of each olive grove like fertilizer prunining etc !' %}</p>
+    </div>
+</div>
+</div>
+<br><br>
+{% endblock %}
