@@ -6,8 +6,6 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse
 
-User._meta.get_field('email')._unique = True
-
 class OliveGrove(models.Model):
     created_by=models.ForeignKey(User, on_delete=models.CASCADE)
     created_at=models.DateField(_("Created At"), auto_now_add=True)
