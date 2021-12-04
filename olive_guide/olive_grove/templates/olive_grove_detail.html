@@ -10,7 +10,7 @@
 {% block breadcrumbs %}
     {% include 'breadcumps.html' %}
 {% endblock %}
-<div class="card-panel">
+<div class="card">
   <div class="card-action">
     <div class="row">
       <div class="col s6">
@@ -31,27 +31,27 @@
     </div>
   </div>
   <div class="card-content responsive">
-      <div class="col s6">
+      <div>
           {% leaflet_map "map" callback="window.map_init_basic" %}
       </div>
     <br>
-    <div class="container">
+    <div class="container center-align">
       <div class="row">
-        <div class="col s4">{% trans 'Name' %} :</div>
-        <div class="col s8">{{olive_grove.name}}</div>
+        <div class="col s12 m4">{% trans 'Name' %} :</div>
+        <div class="col s12 m8">{{olive_grove.name}}</div>
       </div>
       <div class="row">
-        <div class="col s4">{% trans 'Created At' %} :</div>
-        <div class="col s8">{{olive_grove.created_at}}</div>
+        <div class="col s12 m4">{% trans 'Created At' %} :</div>
+        <div class="col s12 m8">{{olive_grove.created_at}}</div>
       </div>
       <div class="row">
-        <div class="col s4">{% trans 'Acres' %} :</div>
-        <div class="col s8">{{olive_grove.acres}}</div>
+        <div class="col s12 m4">{% trans 'Acres' %} :</div>
+        <div class="col s12 m8">{{olive_grove.acres}}</div>
       </div>
-      <div class="row">
-        <div class="col s4">{% trans 'Coordinates' %}:</div>
-        <div class="col s8">
-          <table>
+      
+        <p>{% trans 'Coordinates' %}:<p>
+        <div>
+          <table class="table responsive-table">
             <thead>
               <tr>
                   <th>x</th>
@@ -69,6 +69,7 @@
           </table>
         </div>
       </div>
+      <br>
       <div class="row center-align">
         <a
           class="btn waves-effect lime darken-3 white-text "
@@ -77,7 +78,6 @@
         >
       </div>
     </div>
-  </div>
   <div class="card-tabs">
     <ul class="tabs tabs-fixed-width">
       <li class="tab"><a href="#notes">{% trans 'Notes' %}</a></li>
@@ -155,6 +155,8 @@
           </form>
     </div>
   </div>
+  <br>
+  <br>
 {% endblock %}
 {% block extra_javascript %}
 
