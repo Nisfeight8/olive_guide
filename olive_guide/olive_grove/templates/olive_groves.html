@@ -11,17 +11,17 @@
 {% block breadcrumbs %}
     {% include 'breadcumps.html' %}
 {% endblock %}
-<div class="card-panel">
-  <div class="card_action">
+<div class="card">
+  <div class="card-action">
     <div class="row">
       <div class="col s6">
-        <h4>{% trans "My Olive Groves" %}</h4>
+        <div class="card-title">{% trans "My Olive Groves" %}</div>
       </div>
       <div class="col s6 right-align" style="padding-top: 15px">
         <a
-          class="btn waves-effect lime darken-3 white-text"
+          class="waves-effect waves-light lime darken-3 white-text btn-floating"
           href="{% url 'olive_grove:olive_grove_create'  %}"
-          ><i class="material-icons left">add</i>{% trans "Create" %}</a
+          ><i class="material-icons left">add</i></a
         >
       </div>
     </div>
@@ -42,9 +42,14 @@
           <td>{{og.created_at}}</td>
           <td>
             <a
-              class="btn waves-effect lime darken-3 white-text"
+              class="waves-effect waves-light lime darken-3 white-text btn-floating"
               href="{{og.get_absolute_url}}"
-              ><i class="material-icons left">remove_red_eye</i>{% trans "View" %}</a
+              ><i class="material-icons left">remove_red_eye</i></a
+            >
+            <a
+              class="btn-floating waves-effect lime darken-3 white-text"
+              href="{% url 'olive_grove:olive_grove_update'  og.pk  %}"
+              > <i class="material-icons left">edit</i></a
             >
           </td>
         </tr>

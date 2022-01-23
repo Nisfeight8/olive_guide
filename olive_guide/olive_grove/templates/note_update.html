@@ -8,11 +8,11 @@
       {% include 'breadcumps.html' %}
     {% endwith %}
 {% endblock %}
-<div class="card-panel">
-  <div class="card_action">
-    <h4>{% trans 'Edit Note' %} : {{ note.title }}</h4>
-  </div>
+<div class="card">
   <div class="card-content">
+    <div class="card-title">
+      {% trans 'Edit Note' %} : {{ note.title }}
+    </div>
     <form method="POST">
       {% csrf_token %}
        {{ form.as_p }}

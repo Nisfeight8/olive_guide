@@ -14,7 +14,7 @@
   <div class="card-action">
     <div class="row">
       <div class="col s6">
-        <h4>{{ olive_grove.name }}</h4>
+        <div class="card-title">{{ olive_grove.name }}</div>
       </div>
       <div class="col s6 right-align" style="padding-top: 15px" >
         <a
@@ -30,7 +30,7 @@
       </div>
     </div>
   </div>
-  <div class="card-content responsive">
+  <div class="card-content">
       <div>
           {% leaflet_map "map" callback="window.map_init_basic" %}
       </div>
@@ -51,7 +51,7 @@
       
         <p>{% trans 'Coordinates' %}:<p>
         <div>
-          <table class="table responsive-table">
+          <table class="table centered responsive-table">
             <thead>
               <tr>
                   <th>x</th>
@@ -70,7 +70,7 @@
         </div>
       </div>
       <br>
-      <div class="row center-align">
+      <div class="card-action center-align">
         <a
           class="btn waves-effect lime darken-3 white-text "
           href="{% url 'olive_grove:note_create'  olive_grove.pk  %}"
@@ -87,48 +87,33 @@
   </div>
   <div class="card-content grey lighten-4">
     <div id="notes">
-      {% if olive_grove.note_set.all %}
-      <table class="striped responsive-table">
-      <thead>
-        <tr>
-          <th>{% trans "Title" %}</th>
-          <th>{% trans "Created At" %}</th>
-          <th>{% trans "Actions" %}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for note in olive_grove.note_set.all %}
-        <tr>
-          <td>{{ note.title }}</td>
-          <td>{{ note.created_at}}</td>
-          <td>
-            <a
-              class="btn waves-effect lime darken-3 white-text"
-              href="{{note.get_absolute_url}}"
-              ><i class="material-icons left">remove_red_eye</i>{% trans "View" %}</a
-            >
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {% endif%}
+      {{calendar}}
     </div>
-    <div id="weather" class="responsive" style="height: 350px;">
-      {% for weather in olive_grove.weather %}
-        <div class="divider"></div>
-        <div class="section">
-          <div class="center-align">
-            <h5>{{ weather.time }}</h5>
-            <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Image">
-            <h6 style='font-weight: bold;'>{{ weather.description }}</h5>
-            <p>{% trans 'Temperature' %}: {{ weather.temp }}<img src="{% static 'img/celsius.png' %}" height="10"> </p>
-            <p>{% trans 'Wind speed' %}: {{ weather.wind_speed }}<img src="{% static 'img/wind.png' %}" height="10"></p>
-            <p>{% trans 'Humidity' %}: {{ weather.humidity }}</p>
-            <p>{% trans 'Clouds' %}: {{ weather.clouds }}</p>
-          </div>
+    <div id="weather">
+      <div class="row">
+        <div class="col s12 m4">
+          <ul class="collection">
+            {% for weather in olive_grove.weather %}
+              <a href="#!" class="collection-item" name="#{{forloop.counter}}">{{weather.time}}</a>
+              {% endfor %}
+            </ul>
         </div>
-      {% endfor %}
+        <div class="col s12 m8">
+          {% for weather in olive_grove.weather %}
+            <div id="{{forloop.counter}}" class="card-panel center-align">
+              <div class="card-content">
+                <h5>{{ weather.time }}</h5>
+                <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Image">
+                <h6 style='font-weight: bold;'>{{ weather.description }}</h5>
+                <p>{% trans 'Temperature' %}: {{ weather.temp }}<img src="{% static 'img/celsius.png' %}" height="10"> </p>
+                <p>{% trans 'Wind speed' %}: {{ weather.wind_speed }}<img src="{% static 'img/wind.png' %}" height="10"></p>
+                <p>{% trans 'Humidity' %}: {{ weather.humidity }}</p>
+                <p>{% trans 'Clouds' %}: {{ weather.clouds }}</p>
+              </div>
+            </div>
+        {% endfor %}
+        </div>
+      </div>
       <div class="right-align">
         <a target="_blank" href="https://openweathermap.org">Powered By OpenWeather</a>
       </div>
@@ -163,7 +148,24 @@
 <script>
   $(document).ready(function () {
     $(".tabs").tabs();
-    $('#weather').css("overflow-y", "scroll");
+    $(".card-panel").each(function(index, value){
+      $('.card-panel').hide();
+    })
+    $(".card-panel" ).first().show();
+    $(".collection-item" ).first().addClass("active");
+    $(".collection-item").on('click', function(){
+      $(".collection-item").each(function(index, value){
+        $(value).removeClass("active");
+      });
+      $(".card-panel").each(function(index, value){
+        $('.card-panel').hide();
+      })
+      $(this).addClass("active");
+      var card_id= $(this).attr('name');
+      console.log($(this).attr('name'));   
+      console.log($(this).text());   
+      $(card_id).show();
+    });
   });
 </script>
 <script type="text/javascript">

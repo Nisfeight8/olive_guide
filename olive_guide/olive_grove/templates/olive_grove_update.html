@@ -8,11 +8,11 @@
       {% include 'breadcumps.html' %}
     {% endwith %}
 {% endblock %}
-<div class="card-panel">
-  <div class="card_action">
-    <h4>{% trans 'Edit' %} {% trans 'Olive Grove' %} : {{ olive_grove.name }}</h4>
-  </div>
+<div class="card">
   <div class="card-content">
+    <div class="card-title">
+      {% trans 'Edit' %} {% trans 'Olive Grove' %} : {{ olive_grove.name }}
+    </div>
     <form method="POST">
       {% csrf_token %}
       {% form form=form %}{% endform %}
@@ -28,7 +28,7 @@
                 {% form form=form %}{% endform %}
               {% endfor %}
       </div>
-      <button class="btn waves-effect dark white-text" type="button" id="add_more">{% trans 'Add More' %}</button>
+      <button class="btn-small waves-effect dark white-text" type="button" id="add_more">{% trans 'Add More' %}</button>
       <div id="empty_form" style="display:none">
         {% form form=formset.empty_form %}{% endform %}
       </div>

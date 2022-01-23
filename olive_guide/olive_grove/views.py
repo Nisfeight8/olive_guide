@@ -102,7 +102,6 @@ class OliveGroveUpdateView(LoginRequiredMixin,SuccessMessageMixin,UserPassesTest
     def get_object(self):
         return OliveGrove.objects.get(id=self.kwargs['pk'])
 
-
 class OliveGroveDetailView(LoginRequiredMixin,UserPassesTestMixin,DetailView):
     model=OliveGrove
     template_name = 'olive_grove_detail.html'
