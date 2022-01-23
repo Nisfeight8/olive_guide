@@ -6,7 +6,7 @@ An app for farmers to help them manage their olive groves.They can create/edit/d
 Olive Guide uses a number of open source projects to work properly:
 
 - [Django] - Python Framework
-- [Matrializecss] - great UI boilerplate for modern web apps
+- [Materializecss] - great UI boilerplate for modern web apps
 - [PostgreSQL-Postgis] - Database
 - [OpenWeatherApi] - API for taking weather information
 
