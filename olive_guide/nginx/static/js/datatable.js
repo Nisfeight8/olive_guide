@@ -1,0 +1,3 @@
+$('#datatable').DataTable({
+    "ordering" : false,
+});

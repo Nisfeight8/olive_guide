@@ -31,7 +31,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(config('DEBUG', default=1))
 
-ALLOWED_HOSTS= config('DJANGO_ALLOWED_HOSTS').split(" ")
+ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS').split(" ")
 
 
 # Application definition
@@ -106,7 +106,6 @@ DATABASES = {
 }
 
 
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -132,11 +131,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 TIME_ZONE = 'Europe/Athens'
 
-gettext = lambda s: s
+
+def gettext(s): return s
+
 
 LANGUAGES = [
-  ('en', gettext('English')),
-  ('el', gettext('Greek')),
+    ('en', gettext('English')),
+    ('el', gettext('Greek')),
 ]
 
 LOCALE_PATHS = [
@@ -169,7 +170,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SITE_ID = 1
 
 # Add the 'allauth' backend to AUTHENTICATION_BACKEND and keep default ModelBackend
-AUTHENTICATION_BACKENDS = [ 'django.contrib.auth.backends.ModelBackend',
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',
                            'allauth.account.auth_backends.AuthenticationBackend']
 # EMAIL_BACKEND so allauth can proceed to send confirmation emails
 # ONLY for development/testing use console
@@ -181,7 +182,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 # Make email verification mandatory to avoid junk email accounts
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-ACCOUNT_LOGOUT_ON_GET=True
+ACCOUNT_LOGOUT_ON_GET = True
 
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
@@ -189,7 +190,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
 
-ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE =False
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = False
 
 ACCOUNT_SIGNUP_FORM_CLASS = 'userprofiles.forms.SignupForm'
 
@@ -198,21 +199,22 @@ LOGIN_REDIRECT_URL = '/olive_groves'
 
 
 EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_HOST_USER =config('EMAIL_HOST_USER')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_PORT =  config('EMAIL_HOST_PORT')
+EMAIL_PORT = config('EMAIL_HOST_PORT')
 EMAIL_USE_TLS = True
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-OPEN_WEATHER_KEY=config('API_KEY')
+OPEN_WEATHER_KEY = config('API_KEY')
 
 
 LEAFLET_CONFIG = {
     'TILES': [
-        ('Satellite', 'http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {'attribution': 'Copyright Google Maps','maxZoom': 20,'subdomains':['mt0','mt1','mt2','mt3']}),
-        ('Streets', 'http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {'attribution':'Copyright Google Maps','maxZoom': 20,'subdomains':['mt0','mt1','mt2','mt3']})
+        ('Satellite', 'http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+         'attribution': 'Copyright Google Maps', 'maxZoom': 20, 'subdomains': ['mt0', 'mt1', 'mt2', 'mt3']}),
+        ('Streets', 'http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+         'attribution': 'Copyright Google Maps', 'maxZoom': 20, 'subdomains': ['mt0', 'mt1', 'mt2', 'mt3']})
     ]
 }
-
